@@ -1,8 +1,13 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --background: #07070f;
+  --foreground: #e4e4ef;
+  --font-display: "Syne", var(--font-geist-sans), sans-serif;
+  --font-data: "DM Mono", var(--font-geist-mono), monospace;
+  --color-accent: #6366f1;
+  --color-accent-cyan: #22d3ee;
+  --color-live: #34d399;
 }
 
 @theme inline {
@@ -12,15 +17,163 @@
   --font-mono: var(--font-geist-mono);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
 }
 
 body {
   background: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: var(--font-geist-sans), sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ─── Typography helpers ─────────────────────────────────────────── */
+.f-display {
+  font-family: var(--font-display);
+}
+.f-data {
+  font-family: var(--font-data);
+}
+
+/* ─── Animations ─────────────────────────────────────────────────── */
+@keyframes pulse-ring {
+  0% {
+    transform: scale(0.85);
+    opacity: 0.9;
+  }
+  100% {
+    transform: scale(2.6);
+    opacity: 0;
+  }
+}
+@keyframes cursor-blink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+@keyframes slide-in-up {
+  from {
+    opacity: 0;
+    transform: translateY(6px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes breathe {
+  0%,
+  100% {
+    opacity: 0.6;
+  }
+  50% {
+    opacity: 1;
+  }
+}
+@keyframes scan {
+  from {
+    transform: translateY(-100%);
+  }
+  to {
+    transform: translateY(200%);
+  }
+}
+
+.animate-slide-up {
+  animation: slide-in-up 0.35s ease-out both;
+}
+.animate-breathe {
+  animation: breathe 3s ease-in-out infinite;
+}
+.animate-scan {
+  animation: scan 4s linear infinite;
+}
+
+/* ─── Pulse ring dot ─────────────────────────────────────────────── */
+.pulse-dot {
+  position: relative;
+  display: inline-block;
+  border-radius: 50%;
+}
+.pulse-dot::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: 50%;
+  border: 1.5px solid currentColor;
+  animation: pulse-ring 2.2s ease-out infinite;
+  pointer-events: none;
+}
+
+/* ─── Grid background ────────────────────────────────────────────── */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(99, 102, 241, 0.05) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(99, 102, 241, 0.05) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+/* ─── Glow variants ──────────────────────────────────────────────── */
+.glow-indigo {
+  text-shadow: 0 0 24px rgba(99, 102, 241, 0.55);
+}
+.glow-cyan {
+  text-shadow: 0 0 20px rgba(34, 211, 238, 0.5);
+}
+.glow-green {
+  text-shadow: 0 0 16px rgba(52, 211, 153, 0.6);
+}
+
+/* ─── Card shimmer top border ────────────────────────────────────── */
+.card-shimmer {
+  position: relative;
+}
+.card-shimmer::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(99, 102, 241, 0.5) 50%,
+    transparent 100%
+  );
+}
+.card-shimmer-cyan::before {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(34, 211, 238, 0.45) 50%,
+    transparent 100%
+  );
+}
+
+/* ─── Cursor blink ───────────────────────────────────────────────── */
+.cursor-blink::after {
+  content: "▮";
+  font-size: 0.6em;
+  margin-left: 2px;
+  animation: cursor-blink 1s step-end infinite;
+  opacity: 0.7;
+}
+
+/* ─── Scrollbar ──────────────────────────────────────────────────── */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: #27272a;
+  border-radius: 2px;
 }
